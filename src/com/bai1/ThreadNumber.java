@@ -28,7 +28,7 @@ public class ThreadNumber implements Runnable {
                         sum += number;
                     }
                     if (sum > 10) {
-                        System.out.println("number2.txt: " + ": " + currentLine + ": " + sum);
+                        System.out.println(Thread.currentThread().getName() + ": " + currentLine + ": " + sum);
                     }
                 } else {
                     System.out.println("khong co du lieu");

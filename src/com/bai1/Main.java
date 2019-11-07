@@ -8,50 +8,18 @@ import java.io.Reader;
 public class Main {
 
     public static void main(String[] args) {
-
-        Thread thread1 = new Thread() {
-            public void run() {
-                String filePath = "/home/cong/Downloads/exjava/number1.txt";
-                BufferedReader bufferedReader = null;
-                Reader reader;
-
-                try {
-                    reader = new FileReader(filePath);
-                    bufferedReader = new BufferedReader(reader);
-
-                    String currentLine;
-
-                    while ((currentLine = bufferedReader.readLine()) != null) {
-                        int sum = 0;
-                        for (int i = currentLine.length() - 1; i >= currentLine.length() - 3; i--) {
-
-                            char character = currentLine.charAt(i);
-                            int number = Character.getNumericValue(character);
-                            sum += number;
-                        }
-                        if (sum > 10) {
-                            System.out.println("number1.txt: " + ": " + currentLine + ": " + sum);
-                        }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (bufferedReader != null) {
-                        try {
-                            bufferedReader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        };
+        String filePath1 = "/home/cong/Downloads/exjava/number1.txt";
+        String filePath3 = "/home/cong/Downloads/exjava/number3.txt";
 
         ThreadNumber threadNumber = new ThreadNumber();
         Thread thread2 = new Thread(threadNumber);
 
-        NumberPhoneThread thread3 = new NumberPhoneThread();
+        NumberPhoneThread thread3 = new NumberPhoneThread(filePath3);
+        NumberPhoneThread thread1 = new NumberPhoneThread(filePath1);
+
+        thread1.setName("number1.txt");
+        thread2.setName("number2.txt");
+        thread3.setName("number3.txt");
 
         thread1.start();
         thread2.start();
@@ -62,9 +30,13 @@ public class Main {
 
 class NumberPhoneThread extends Thread {
 
-    public void run() {
+    private String filePath;
 
-        String filePath = "/home/cong/Downloads/exjava/number3.txt";
+    NumberPhoneThread(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public void run() {
         Reader reader;
         BufferedReader bufferedReader = null;
         try {
@@ -83,7 +55,7 @@ class NumberPhoneThread extends Thread {
                         sum += number;
                     }
                     if (sum > 10) {
-                        System.out.println("number3.txt: " + ": " + currentLine + ": " + sum);
+                        System.out.println(Thread.currentThread().getName() + ": " + currentLine + ": " + sum);
                     }
                 } else {
                     System.out.println("khong co du lieu");
